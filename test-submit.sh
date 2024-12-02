@@ -10,12 +10,13 @@
 mkdir -p test/ test/input
 cd test/
 
-# # Download test data
-# URL="https://figshare.com/ndownloader/files"
+# Download test data
+URL="https://figshare.com/ndownloader/files"
 
-# wget -c $URL/50487621 -O input/pheno.variants.vcf.gz
-# wget -c $URL/50487624 -O input/pheno.variants.vcf.gz.tbi
-# wget -c $URL/50427141 -O input/pheno.families.ped
+wget -c $URL/50690370 -O input/pheno.variants.vcf.gz
+wget -c $URL/50690373 -O input/pheno.variants.vcf.gz.tbi
+wget -c $URL/50690376 -O input/pheno.families.ped
+wget -c $URL/50690367 -O input/pheno.cases.txt
 
 # Run nextflow
 module load Nextflow

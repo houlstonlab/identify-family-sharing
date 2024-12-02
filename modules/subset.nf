@@ -20,7 +20,7 @@ process SUBSET {
     """
     #!/bin/bash
     # Subset pheno
-    bcftools view -g het -s ${members.join(',')} ${file} | \
+    bcftools view --force-samples -g het -s ${members.join(',')} ${file} | \
     bcftools norm -m -any | \
     bcftools +fill-tags -- -t all | \
     bcftools +setGT -- -t . -n 0 | \
