@@ -9,13 +9,15 @@ genotype    <- args[3]
 phenotype   <- args[4]
 pedigree    <- args[5]
 which       <- args[6]
+removed     <- args[7]
 
-# family_id   <- 'FAM_01'
-# pheno       <- 'pheno'
-# genotype    <- 'identify-family-sharing/test/results/family/FAM_01.pheno.genotype.tsv'
-# phenotype   <- 'identify-family-sharing/test/results/family/FAM_01.pheno.phenotype.tsv'
-# pedigree    <- 'identify-family-sharing/test/results/family/FAM_01.pheno.ped'
-# which  <- 'gene'
+family_id   <- 'FAM_02'
+pheno       <- 'pheno'
+genotype    <- 'identify-family-sharing/test/results/family/FAM_02/FAM_02.pheno.genotype.tsv'
+phenotype   <- 'identify-family-sharing/test/results/family/FAM_02/FAM_02.pheno.phenotype.tsv'
+pedigree    <- 'identify-family-sharing/test/results/family/FAM_02/FAM_02.pheno.ped'
+which       <- 'gene'
+removed     <- ''
 
 # Load phenotype
 phenotype <- readr::read_tsv(phenotype)
@@ -34,6 +36,9 @@ genotype <- readr::read_tsv(genotype)
 genotype <- dplyr::select(genotype, gene, variant = name)
 
 g <- pedtools::getGenotypes(p)
+
+# Filter out variants
+g <- g[, setdiff(colnames(g), removed)]
 
 m <- dplyr::as_tibble(g)
 m <- dplyr::mutate(m, id = rownames(g))

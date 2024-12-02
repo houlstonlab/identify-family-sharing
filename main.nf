@@ -45,7 +45,17 @@ workflow {
         | ATTACH
     
     // Sharing: Check and test sharing
-    ATTACH.out | CHECK
-    ATTACH.out | combine(which_ch) | TEST
-    ATTACH.out | combine(TEST.out, by: [0,1]) | DRAW
+    // TODO: Add other necessary checks
+    ATTACH.out
+        | CHECK
+        | set { removed }
+
+    ATTACH.out
+        | combine(which_ch)
+        | combine(CHECK.out, by: [0,1])
+        | TEST
+
+    ATTACH.out
+        | combine(TEST.out, by: [0,1])
+        | DRAW
 }

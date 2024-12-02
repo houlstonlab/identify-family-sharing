@@ -10,7 +10,7 @@ process TEST {
     input:
     tuple val(famid), val(pheno), 
           path(genotype), path(phenotype), path(pedigree),
-          val(which)
+          val(which), path(removed)
 
     output:
     tuple val(famid), val(pheno), val(which),
@@ -19,6 +19,6 @@ process TEST {
     script:
     """
     #!/bin/bash
-    test.R ${famid} ${pheno} ${genotype} ${phenotype} ${pedigree} ${which}
+    test.R ${famid} ${pheno} ${genotype} ${phenotype} ${pedigree} ${which} ${removed}
     """
 }
