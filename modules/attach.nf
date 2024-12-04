@@ -5,22 +5,20 @@ process ATTACH {
 
     container params.rvs
 
-    publishDir("${params.output_dir}/family/${famid}", mode: 'copy')
+    publishDir("${params.output_dir}/markers/", mode: 'copy')
 
     input:
-    tuple val(famid), path(pedigree),
-          val(pheno), val(category), val(variable),
-          path(genotypes)
+    tuple val(famid), val(pheno),
+          path(bim), path(bed), path(fam), path(nosex), path(log),
+          path(pedigree)
 
     output:
-    tuple val(famid), val(pheno), 
-          path("${famid}.${pheno}.genotype.tsv"),
-          path("${famid}.${pheno}.phenotype.tsv"),
-          path("${famid}.${pheno}.ped")
+    tuple val(famid), val(pheno),
+          path("${famid}.${pheno}.marked.ped")
 
     script:
     """
     #!/bin/bash
-    attach.R ${famid} ${pedigree} ${pheno} ${category.join(',')} ${genotypes.join(',')} 
+    attach.R ${bim} ${bed} ${fam} ${pedigree} ${famid}.${pheno}.marked
     """
 }

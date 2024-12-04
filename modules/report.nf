@@ -1,27 +1,27 @@
-process TEST {
-    tag "${pheno}:${famid}:${test}"
+process REPORT {
+    tag "${pheno}:${famid}:${report}"
 
     label 'simple'
 
     container = params.plink
 
-    publishDir("${params.output_dir}/tests", mode: 'copy')
+    publishDir("${params.output_dir}/reprots", mode: 'copy')
 
     input:
     tuple val(famid), val(pheno),
           path(bim), path(bed), path(fam), path(nosex), path(log)
-    each test
+    each report
 
     output:
-    tuple val(famid), val(pheno), val(test),
-          path("${famid}.${pheno}.${test}")
+    tuple val(famid), val(pheno),
+          path("${famid}.${pheno}.*")
 
     script:
     """
     #!/bin/bash        
     plink \
         --bfile ${bim.baseName} \
-        --${test} \
+        --${report} \
         --out ${famid}.${pheno}
     """
 }

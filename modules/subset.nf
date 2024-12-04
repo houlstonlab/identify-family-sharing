@@ -8,9 +8,9 @@ process SUBSET {
     publishDir("${params.output_dir}/subsets", mode: 'copy')
 
     input:
-    tuple val(famid), val(members),
+    tuple val(famid), path(id),
           val(pheno), path(file), path(index)
-          
+
     output:
     tuple val(famid), val(pheno), 
           path("${famid}.${pheno}.vcf.gz"),
@@ -20,7 +20,8 @@ process SUBSET {
     """
     #!/bin/bash
     # Subset pheno
-    bcftools view --force-samples -g het -s ${members.join(',')} ${file} | \
+    bcftools view --force-samples -g het -S ${id} ${file} | \
+    bcftools view -i 'FILTER="PASS"' | \
     bcftools norm -m -any | \
     bcftools +fill-tags -- -t all | \
     bcftools +setGT -- -t . -n 0 | \

@@ -1,24 +1,24 @@
 process DRAW {
-    tag "${pheno}:${famid}"
+    tag "${pheno}:${famid}:${test}"
 
     label 'simple'
 
     container params.rvs
 
-    publishDir("${params.output_dir}/sharing/${famid}", mode: 'copy')
+    publishDir("${params.output_dir}/plots", mode: 'copy')
 
     input:
-    tuple val(famid), val(pheno), 
-          path(genotype), path(phenotype), path(pedigree),
-          val(which), path(markers)
+    tuple val(famid), val(pheno),
+          path(pedigree),
+          val(test), path(test_file)
 
     output:
-    tuple val(famid), val(pheno), val(which),
-          path("${famid}.${pheno}.${which}.*.png")
- 
+    tuple val(famid), val(pheno), val(test),
+          path("${famid}.${pheno}.${test}.*.png")
+
     script:
     """
     #!/bin/bash
-    draw.R ${famid} ${pheno} ${genotype} ${phenotype} ${pedigree} ${which} ${markers}
+    draw.R ${pedigree} ${test_file} ${famid}.${pheno}.${test}
     """
 }
