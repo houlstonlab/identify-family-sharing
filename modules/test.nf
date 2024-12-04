@@ -23,5 +23,6 @@ process TEST {
         --bfile ${bim.baseName} \
         --${test} \
         --out ${famid}.${pheno}
+    # TODO: implement othe tests
     """
 }
