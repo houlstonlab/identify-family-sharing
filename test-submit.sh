@@ -19,13 +19,16 @@ wget -c $URL/51733736 -O input/pheno.families.ped
 wget -c $URL/50690367 -O input/pheno.cases.txt
 wget -c $URL/51780443 -O input/pheno.phenotypes.tsv
 
+echo "cohort,file,index,pedigree,phenotypes" > input/cohorts_info.csv
+echo "pheno,input/pheno.variants.vcf.gz,input/pheno.variants.vcf.gz.tbi,input/pheno.families.ped,input/pheno.phenotypes.tsv" >> input/cohorts_info.csv
+
 # Run nextflow
 module load Nextflow
 
 # nextflow run houlstonlab/identify-family-sharing -r main \
 nextflow run ../main.nf \
     --output_dir ./results/ \
-    -profile local,gha \
+    -profile local,test \
     -resume
 
 # usage: nextflow run [ local_dir/main.nf | git_url ]  

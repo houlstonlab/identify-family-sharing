@@ -13,13 +13,21 @@ include { SHARING }     from './modules/sharing.nf'
 include { DRAW }        from './modules/draw.nf'
 
 // Define input channels
-families_ch = Channel.fromPath(params.pedigrees)
+variants_ch = Channel.fromPath(params.cohorts)
+    | splitCsv(header: true, sep: ',')
+    | map { row -> [ row.cohort, file(row.file), file(row.index) ] }
+
+phenotypes_ch = Channel.fromPath(params.cohorts)
+    | splitCsv(header: true, sep: ',')
+    | map { row -> file(row.phenotypes) }
+
+families_ch = Channel.fromPath(params.cohorts)
+    | splitCsv(header: true, sep: ',')
+    | map { row -> file(row.pedigree) }
     | splitCsv(header: true, sep: '\t')
     | map { row -> [row.famid, row.id, row.fid, row.mid, row.sex, row.aff, row.famid] }
     | groupTuple(by: 0)
 
-phenotypes_ch = Channel.fromPath(params.phenotypes)
-variants_ch = Channel.fromFilePairs(params.variants, flat: true)
 category_ch = Channel.of(params.categories.split(','))
 type_ch     = Channel.of(params.type.split(','))
 

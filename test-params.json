@@ -1,6 +1,4 @@
 
 {
-    "variants"  : "$TOY_DATASETS/wes-sarek/*.variants.vcf.gz{,.tbi}",
-    "pedigrees" : "$TOY_DATASETS/wes-sarek/*.families.ped",
-    "phenotypes": "$TOY_DATASETS/wes-sarek/*.phenotypes.tsv"
+    "cohorts": "$TOY_DATASETS/wes-sarek/cohorts_info.csv"
 }
